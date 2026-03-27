@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useShadow } from '../store/shadowStore';
 import { Entity } from '../core/types';
 import { Network, Search, X } from 'lucide-react';
+import ForceGraph3D from 'react-force-graph-3d';
 
 const TYPE_COLORS: Record<string, string> = {
     person: '#3b82f6',
@@ -25,6 +26,24 @@ export default function EntityGraphView() {
     const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<string>('all');
+    
+    // Auto-resizing for the 3D canvas
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                setDimensions({
+                    width: entry.contentRect.width,
+                    height: entry.contentRect.height
+                });
+            }
+        });
+        observer.observe(containerRef.current);
+        return () => observer.disconnect();
+    }, []);
 
     const filteredEntities = entities.filter(e => {
         const matchSearch = !searchTerm || e.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -102,33 +121,38 @@ export default function EntityGraphView() {
             </div>
 
             <div className="entity-layout">
-                {/* Entity List */}
-                <div className="entity-list">
-                    {filteredEntities
-                        .sort((a, b) => b.mentions - a.mentions)
-                        .slice(0, 80)
-                        .map(entity => (
-                            <div
-                                key={entity.id}
-                                className={`entity-card ${selectedEntity?.id === entity.id ? 'selected' : ''}`}
-                                onClick={() => setSelectedEntity(entity)}
-                            >
-                                <div
-                                    className="entity-type-dot"
-                                    style={{ background: TYPE_COLORS[entity.type] || '#6b7280' }}
-                                />
-                                <div className="entity-info">
-                                    <div className="entity-name">{entity.name}</div>
-                                    <div className="entity-meta">
-                                        {TYPE_LABELS[entity.type] || entity.type} · {entity.mentions} mentions
-                                    </div>
-                                </div>
-                                <div className="entity-mentions">{entity.mentions}</div>
-                            </div>
-                        ))}
-                    {filteredEntities.length === 0 && (
-                        <div className="empty-state">No entities match your search</div>
-                    )}
+                {/* Hardware-Accelerated 3D Force Graph */}
+                <div ref={containerRef} className="entity-list" style={{ padding: 0, overflow: 'hidden', background: '#0a0a0f', position: 'relative' }}>
+                    <div style={{ position: 'absolute', inset: 0 }}>
+                        {dimensions.width > 0 && (
+                            <ForceGraph3D
+                                width={dimensions.width}
+                                height={dimensions.height}
+                                graphData={{
+                                    nodes: filteredEntities.map(e => ({
+                                        ...e,
+                                        val: Math.max(1, Math.min(10, e.mentions / 5)), // Node size based on mentions
+                                        color: TYPE_COLORS[e.type] || '#6b7280'
+                                    })),
+                                    links: edges.filter(l => 
+                                        filteredEntities.some(e => e.id === l.source) && 
+                                        filteredEntities.some(e => e.id === l.target)
+                                    )
+                                }}
+                                nodeLabel="name"
+                                nodeColor="color"
+                                nodeResolution={16}
+                                linkWidth={0.5}
+                                linkColor={() => 'rgba(255,255,255,0.15)'}
+                                onNodeClick={(node: any) => {
+                                    // Find original entity to set as selected
+                                    const org = entities.find(e => e.id === node.id);
+                                    if (org) setSelectedEntity(org);
+                                }}
+                                backgroundColor="#0a0a0f"
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* Entity Detail Panel */}
