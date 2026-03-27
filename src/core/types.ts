@@ -85,6 +85,21 @@ export interface UploadedFile {
   size: number;
 }
 
+export interface ParseError {
+  source: DataSource;
+  filename: string;
+  message: string;
+  suggestion: string;
+}
+
+export interface ProcessingProgress {
+  stage: 'upload' | 'parse' | 'entity-graph' | 'risk-score' | 'threat-gen' | 'done';
+  stageLabel: string;
+  percent: number; // 0-100
+  filesProcessed?: number;
+  filesTotal?: number;
+}
+
 export interface ShadowState {
   files: UploadedFile[];
   events: ShadowEvent[];
@@ -95,5 +110,7 @@ export interface ShadowState {
   apiKey: string;
   isProcessing: boolean;
   currentStep: string;
+  progress: ProcessingProgress | null;
+  parseErrors: ParseError[];
   isAnalyzed: boolean;
 }

@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { ShadowState, ShadowEvent, Entity, EntityEdge, RiskScore, ThreatNarrative, UploadedFile } from '../core/types';
+import { ShadowState, ShadowEvent, Entity, EntityEdge, RiskScore, ThreatNarrative, UploadedFile, ProcessingProgress, ParseError } from '../core/types';
 
 // Actions
 type Action =
     | { type: 'SET_PROCESSING'; step: string }
+    | { type: 'SET_PROGRESS'; progress: ProcessingProgress }
+    | { type: 'ADD_PARSE_ERRORS'; errors: ParseError[] }
     | { type: 'SET_DONE' }
     | { type: 'ADD_FILES'; files: UploadedFile[] }
     | { type: 'SET_EVENTS'; events: ShadowEvent[] }
@@ -24,6 +26,8 @@ const initialState: ShadowState = {
     apiKey: '',
     isProcessing: false,
     currentStep: '',
+    progress: null,
+    parseErrors: [],
     isAnalyzed: false,
 };
 
@@ -31,8 +35,12 @@ function reducer(state: ShadowState, action: Action): ShadowState {
     switch (action.type) {
         case 'SET_PROCESSING':
             return { ...state, isProcessing: true, currentStep: action.step };
+        case 'SET_PROGRESS':
+            return { ...state, progress: action.progress };
+        case 'ADD_PARSE_ERRORS':
+            return { ...state, parseErrors: [...state.parseErrors, ...action.errors] };
         case 'SET_DONE':
-            return { ...state, isProcessing: false, currentStep: '' };
+            return { ...state, isProcessing: false, currentStep: '', progress: null };
         case 'ADD_FILES':
             return { ...state, files: [...state.files, ...action.files] };
         case 'SET_EVENTS':

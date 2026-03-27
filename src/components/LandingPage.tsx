@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload, FileJson, Sparkles, Database, X } from 'lucide-react';
+import { Upload, FileJson, Sparkles, Database, X, AlertCircle } from 'lucide-react';
 import { useShadow } from '../store/shadowStore';
-import { DataSource, UploadedFile, ShadowEvent } from '../core/types';
+import { DataSource, UploadedFile, ShadowEvent, ParseError } from '../core/types';
 import { parseGoogleSearch } from '../core/parsers/googleSearchParser';
 import { parseYouTubeHistory } from '../core/parsers/youtubeParser';
 import { parseLocationHistory } from '../core/parsers/locationParser';
@@ -14,12 +14,14 @@ import { computeRiskScore } from '../core/riskScoring';
 import { generateThreats, getDefaultThreats } from '../core/genai/threatGenerator';
 import { sampleEvents } from '../sample/sampleData';
 
-type FileSourceMapping = { pattern: RegExp; source: DataSource; parser: (raw: string) => ShadowEvent[] };
+type ParserFn = (raw: string, filename?: string) => { events: ShadowEvent[]; errors: ParseError[] };
+
+type FileSourceMapping = { pattern: RegExp; source: DataSource; parser: ParserFn };
 
 const FILE_MAPPINGS: FileSourceMapping[] = [
     { pattern: /search|my.?activity|query/i, source: 'google_search', parser: parseGoogleSearch },
     { pattern: /youtube|watch/i, source: 'youtube', parser: parseYouTubeHistory },
-    { pattern: /location|timeline|places/i, source: 'location', parser: parseLocationHistory },
+    { pattern: /location|timeline|places|records/i, source: 'location', parser: parseLocationHistory },
     { pattern: /browser|history|chrome|firefox/i, source: 'browser_history', parser: parseBrowserHistory },
     { pattern: /email|mail|mbox|message/i, source: 'email', parser: parseEmailMetadata },
     { pattern: /social|facebook|instagram|twitter|tweet|post/i, source: 'social_media', parser: parseSocialMedia },
@@ -29,33 +31,54 @@ function detectSource(filename: string): FileSourceMapping {
     for (const mapping of FILE_MAPPINGS) {
         if (mapping.pattern.test(filename)) return mapping;
     }
-    // Default to Google Search parser for unknown JSON files
     return FILE_MAPPINGS[0];
 }
 
 export default function LandingPage() {
     const { state, dispatch } = useShadow();
     const [files, setFiles] = useState<UploadedFile[]>([]);
+    const [parseErrors, setParseErrors] = useState<ParseError[]>([]);
     const [dragging, setDragging] = useState(false);
-    const [apiKey, setApiKey] = useState('');
+    const [apiKey, setApiKey] = useState(() => localStorage.getItem('datashadow_apikey') || '');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     const handleFiles = useCallback(async (fileList: FileList) => {
         const newFiles: UploadedFile[] = [];
+        const errors: ParseError[] = [];
+
         for (const file of Array.from(fileList)) {
-            if (!file.name.endsWith('.json') && !file.name.endsWith('.csv')) continue;
+            if (!file.name.endsWith('.json') && !file.name.endsWith('.csv')) {
+                errors.push({
+                    source: 'unknown',
+                    filename: file.name,
+                    message: `Unsupported file type: ${file.name.split('.').pop()}`,
+                    suggestion: 'Upload JSON or CSV files. For Google Takeout, extract the ZIP first and upload the JSON files inside.',
+                });
+                continue;
+            }
             const text = await file.text();
             const mapping = detectSource(file.name);
-            const events = mapping.parser(text);
-            newFiles.push({
-                name: file.name,
-                source: mapping.source,
-                events,
-                size: file.size,
-            });
+            const result = mapping.parser(text, file.name);
+
+            if (result.errors.length > 0) {
+                errors.push(...result.errors);
+            }
+
+            if (result.events.length > 0) {
+                newFiles.push({
+                    name: file.name,
+                    source: mapping.source,
+                    events: result.events,
+                    size: file.size,
+                });
+            }
         }
+
         setFiles(prev => [...prev, ...newFiles]);
+        if (errors.length > 0) {
+            setParseErrors(prev => [...prev, ...errors]);
+        }
     }, []);
 
     const handleDrop = useCallback((e: React.DragEvent) => {
@@ -68,33 +91,60 @@ export default function LandingPage() {
         setFiles(prev => prev.filter((_, i) => i !== index));
     };
 
+    const dismissError = (index: number) => {
+        setParseErrors(prev => prev.filter((_, i) => i !== index));
+    };
+
     const runAnalysis = async (events: ShadowEvent[]) => {
         dispatch({ type: 'SET_PROCESSING', step: 'Normalizing events...' });
-        await sleep(400);
+        dispatch({
+            type: 'SET_PROGRESS',
+            progress: { stage: 'parse', stageLabel: 'Processing events', percent: 10 },
+        });
+        await sleep(300);
 
         const sortedEvents = events.sort((a, b) => a.timestamp - b.timestamp);
         dispatch({ type: 'SET_EVENTS', events: sortedEvents });
 
         dispatch({ type: 'SET_PROCESSING', step: 'Building entity graph...' });
-        await sleep(400);
+        dispatch({
+            type: 'SET_PROGRESS',
+            progress: { stage: 'entity-graph', stageLabel: 'Building entity graph', percent: 30 },
+        });
+        await sleep(300);
         const graph = buildEntityGraph(sortedEvents);
         dispatch({ type: 'SET_ENTITIES', entities: graph.nodes, edges: graph.edges });
 
         dispatch({ type: 'SET_PROCESSING', step: 'Computing risk scores...' });
-        await sleep(400);
+        dispatch({
+            type: 'SET_PROGRESS',
+            progress: { stage: 'risk-score', stageLabel: 'Computing risk scores', percent: 55 },
+        });
+        await sleep(300);
         const risk = computeRiskScore(sortedEvents, graph.nodes);
         dispatch({ type: 'SET_RISK_SCORE', score: risk });
 
         dispatch({ type: 'SET_PROCESSING', step: 'Generating threat narratives...' });
+        dispatch({
+            type: 'SET_PROGRESS',
+            progress: { stage: 'threat-gen', stageLabel: 'Generating threat analysis', percent: 70 },
+        });
+
         const key = apiKey || state.apiKey;
         let threats;
         if (key) {
             threats = await generateThreats(key, sortedEvents, graph.nodes, risk);
         } else {
             await sleep(500);
-            threats = getDefaultThreats(risk);
+            threats = getDefaultThreats(risk, sortedEvents, graph.nodes);
         }
         dispatch({ type: 'SET_THREATS', threats });
+
+        dispatch({
+            type: 'SET_PROGRESS',
+            progress: { stage: 'done', stageLabel: 'Analysis complete', percent: 100 },
+        });
+        await sleep(400);
 
         dispatch({ type: 'SET_ANALYZED' });
         dispatch({ type: 'SET_DONE' });
@@ -104,7 +154,10 @@ export default function LandingPage() {
     const analyzeUploaded = async () => {
         if (files.length === 0) return;
         dispatch({ type: 'ADD_FILES', files });
-        if (apiKey) dispatch({ type: 'SET_API_KEY', key: apiKey });
+        if (apiKey) {
+            dispatch({ type: 'SET_API_KEY', key: apiKey });
+            localStorage.setItem('datashadow_apikey', apiKey);
+        }
 
         const allEvents = files.flatMap(f => f.events);
         await runAnalysis(allEvents);
@@ -120,7 +173,10 @@ export default function LandingPage() {
                 size: 0,
             }],
         });
-        if (apiKey) dispatch({ type: 'SET_API_KEY', key: apiKey });
+        if (apiKey) {
+            dispatch({ type: 'SET_API_KEY', key: apiKey });
+            localStorage.setItem('datashadow_apikey', apiKey);
+        }
         await runAnalysis([...sampleEvents]);
     };
 
@@ -133,6 +189,17 @@ export default function LandingPage() {
                     <div className="processing-spinner" />
                     <div className="processing-text">Analyzing your digital shadow...</div>
                     <div className="processing-step">{state.currentStep}</div>
+                    {state.progress && (
+                        <div className="progress-bar-container">
+                            <div className="progress-bar-track">
+                                <div
+                                    className="progress-bar-fill"
+                                    style={{ width: `${state.progress.percent}%` }}
+                                />
+                            </div>
+                            <div className="progress-label">{state.progress.stageLabel}</div>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -177,6 +244,25 @@ export default function LandingPage() {
                     </div>
                 </div>
 
+                {/* Parse Errors */}
+                {parseErrors.length > 0 && (
+                    <div className="parse-errors">
+                        {parseErrors.map((err, i) => (
+                            <div key={i} className="parse-error-item slide-in" style={{ animationDelay: `${i * 0.05}s` }}>
+                                <AlertCircle size={16} className="error-icon" />
+                                <div className="error-content">
+                                    <div className="error-filename">{err.filename}</div>
+                                    <div className="error-message">{err.message}</div>
+                                    <div className="error-suggestion">{err.suggestion}</div>
+                                </div>
+                                <button className="file-remove" onClick={() => dismissError(i)}>
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 {files.length > 0 && (
                     <div className="file-list">
                         {files.map((file, i) => (
@@ -199,14 +285,14 @@ export default function LandingPage() {
                 )}
 
                 <div className="api-key-section">
-                    <label>OpenAI API Key (optional)</label>
+                    <label>Gemini API Key (optional)</label>
                     <div className="hint">
-                        Required for AI-generated threat narratives. Without it, deterministic analysis + pre-built threats are used.
-                        Your key stays in your browser — never stored on any server.
+                        Required for AI-generated threat narratives. Get one free from <a href="https://aistudio.google.com/apikey" target="_blank" style={{color: 'var(--accent-purple-light)'}}>Google AI Studio</a>.
+                        Without it, deterministic analysis + pre-built threats are used. Your key stays in your browser.
                     </div>
                     <input
                         type="password"
-                        placeholder="sk-..."
+                        placeholder="AIza..."
                         value={apiKey}
                         onChange={(e) => setApiKey(e.target.value)}
                     />

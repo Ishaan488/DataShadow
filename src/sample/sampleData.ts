@@ -1,87 +1,116 @@
-import { ShadowEvent } from '../core/types';
+import { ShadowEvent, DataSource, EventCategory } from '../core/types';
 
 /**
- * Realistic sample data for demo mode.
+ * Realistic sample data for Demo Mode.
+ * Persona: "Alex Rivera" — Software engineer in San Francisco.
+ * Triggers all risk dimensions with coherent, cross-referenced data.
  */
 
-const BASE_TIME = Date.now() - 90 * 24 * 60 * 60 * 1000; // 90 days ago
-const DAY = 24 * 60 * 60 * 1000;
-const HOUR = 60 * 60 * 1000;
+let counter = 0;
+const id = () => `sample_${counter++}`;
+const DAY = 86400000;
+const HOUR = 3600000;
+const BASE = Date.now() - 60 * DAY;
 
-let id = 0;
-const nid = () => `demo_${id++}`;
+function evt(
+    day: number,
+    hour: number,
+    source: DataSource,
+    category: EventCategory,
+    title: string,
+    details: string,
+    entities: string[]
+): ShadowEvent {
+    return {
+        id: id(),
+        timestamp: BASE + day * DAY + hour * HOUR + Math.floor(Math.random() * 3600000),
+        source,
+        category,
+        title,
+        details,
+        entities,
+    };
+}
 
 export const sampleEvents: ShadowEvent[] = [
-    // Google Search events
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 9 * HOUR, source: 'google_search', category: 'search', title: 'best password manager 2025', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 10 * HOUR, source: 'google_search', category: 'financial', title: 'Chase Bank online login', details: '["Search"]', entities: ['Chase Bank'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 8 * HOUR, source: 'google_search', category: 'health', title: 'symptoms of vitamin D deficiency', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 14 * HOUR, source: 'google_search', category: 'shopping', title: 'Amazon Prime Day deals electronics', details: '["Search"]', entities: ['Amazon'] },
-    { id: nid(), timestamp: BASE_TIME + 4 * DAY + 11 * HOUR, source: 'google_search', category: 'search', title: 'how to set up two factor authentication', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 16 * HOUR, source: 'google_search', category: 'travel', title: 'flight tickets NYC to San Francisco', details: '["Search"]', entities: ['NYC', 'San Francisco'] },
-    { id: nid(), timestamp: BASE_TIME + 6 * DAY + 9 * HOUR, source: 'google_search', category: 'financial', title: 'cryptocurrency investment strategies 2025', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 7 * DAY + 13 * HOUR, source: 'google_search', category: 'search', title: 'React TypeScript force graph visualization', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 8 * DAY + 10 * HOUR, source: 'google_search', category: 'search', title: 'John Smith LinkedIn profile', details: '["Search"]', entities: ['John Smith'] },
-    { id: nid(), timestamp: BASE_TIME + 9 * DAY + 15 * HOUR, source: 'google_search', category: 'financial', title: 'best credit cards with travel rewards', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 10 * DAY + 8 * HOUR, source: 'google_search', category: 'search', title: 'Stanford University admissions requirements', details: '["Search"]', entities: ['Stanford University'] },
-    { id: nid(), timestamp: BASE_TIME + 12 * DAY + 11 * HOUR, source: 'google_search', category: 'health', title: 'nearest pharmacy open now', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 14 * DAY + 9 * HOUR, source: 'google_search', category: 'financial', title: 'stock portfolio diversification tips', details: '["Search"]', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 15 * DAY + 20 * HOUR, source: 'google_search', category: 'search', title: 'Sarah Johnson contact number', details: '["Search"]', entities: ['Sarah Johnson'] },
+    // ── Google Search ──
+    evt(1, 8, 'google_search', 'financial', 'Chase Bank login', 'Products: [Search]', ['chase.com']),
+    evt(2, 9, 'google_search', 'financial', 'best savings account interest rates 2025', '', ['google.com']),
+    evt(3, 14, 'google_search', 'health', 'symptoms of vitamin D deficiency', '', ['webmd.com']),
+    evt(4, 10, 'google_search', 'financial', 'Coinbase withdrawal limits', '', ['coinbase.com']),
+    evt(5, 11, 'google_search', 'other', 'React 19 new features', '', ['react.dev']),
+    evt(7, 9, 'google_search', 'travel', 'flights SFO to JFK December', '', ['google.com/flights']),
+    evt(8, 15, 'google_search', 'shopping', 'best noise cancelling headphones 2025', '', ['amazon.com']),
+    evt(10, 8, 'google_search', 'search', 'Sarah Johnson LinkedIn', '', ['Sarah Johnson', 'linkedin.com']),
+    evt(12, 19, 'google_search', 'other', 'best engagement rings San Francisco', '', ['yelp.com']),
+    evt(14, 10, 'google_search', 'financial', 'Roth IRA contribution limits 2025', '', ['irs.gov']),
+    evt(16, 12, 'google_search', 'other', 'restaurants near Financial District SF', '', ['google.com/maps']),
+    evt(18, 9, 'google_search', 'financial', 'credit score check free', '', ['creditkarma.com']),
+    evt(20, 14, 'google_search', 'health', 'UCSF urgent care wait times', '', ['ucsfhealth.org']),
+    evt(22, 10, 'google_search', 'search', 'how to negotiate salary tech industry', '', ['glassdoor.com']),
 
-    // YouTube watch history
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 20 * HOUR, source: 'youtube', category: 'video', title: 'How Hackers Steal Your Data — Full Documentary', details: 'Channel: CyberSec Academy', entities: ['CyberSec Academy'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 21 * HOUR, source: 'youtube', category: 'video', title: 'Complete React Tutorial 2025', details: 'Channel: Fireship', entities: ['Fireship'] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 19 * HOUR, source: 'youtube', category: 'video', title: 'Investing for Beginners — Warren Buffett', details: 'Channel: Finance Hub', entities: ['Warren Buffett', 'Finance Hub'] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 22 * HOUR, source: 'youtube', category: 'video', title: 'Day in the Life of a Software Engineer at Google', details: 'Channel: TechLead', entities: ['Google', 'TechLead'] },
-    { id: nid(), timestamp: BASE_TIME + 7 * DAY + 20 * HOUR, source: 'youtube', category: 'video', title: 'San Francisco Travel Guide 2025', details: 'Channel: Travel Vlogs', entities: ['San Francisco', 'Travel Vlogs'] },
-    { id: nid(), timestamp: BASE_TIME + 10 * DAY + 21 * HOUR, source: 'youtube', category: 'video', title: 'Python Machine Learning Crash Course', details: 'Channel: Sentdex', entities: ['Sentdex'] },
-    { id: nid(), timestamp: BASE_TIME + 13 * DAY + 18 * HOUR, source: 'youtube', category: 'video', title: 'Home Network Security Setup Guide', details: 'Channel: NetworkChuck', entities: ['NetworkChuck'] },
-    { id: nid(), timestamp: BASE_TIME + 16 * DAY + 20 * HOUR, source: 'youtube', category: 'video', title: 'Crypto Market Analysis — Bitcoin Predictions', details: 'Channel: CoinBureau', entities: ['CoinBureau'] },
+    // ── YouTube ──
+    evt(1, 20, 'youtube', 'video', 'How Hackers Steal Your Data — 2025 Documentary', 'Channel: CyberSec Academy', ['CyberSec Academy']),
+    evt(3, 21, 'youtube', 'video', 'Complete React 19 Tutorial for Beginners', 'Channel: Fireship', ['Fireship']),
+    evt(5, 19, 'youtube', 'financial', 'Investing 101 — Stock Market for Beginners', 'Channel: Graham Stephan', ['Graham Stephan']),
+    evt(8, 22, 'youtube', 'travel', 'Tokyo Travel Guide 2025 — Everything You Need', 'Channel: Abroad in Japan', ['Abroad in Japan']),
+    evt(11, 20, 'youtube', 'video', 'System Design Interview — Step by Step Guide', 'Channel: Alex Xu', ['Alex Xu']),
+    evt(14, 21, 'youtube', 'financial', 'Bitcoin Analysis — Is it Time to Buy?', 'Channel: Coin Bureau', ['Coin Bureau']),
+    evt(17, 19, 'youtube', 'health', 'Best Running Routes in San Francisco', 'Channel: SF Running Club', ['SF Running Club']),
+    evt(20, 22, 'youtube', 'video', 'The Hidden Cost of Free Apps — Privacy Documentary', 'Channel: Vox', ['Vox']),
 
-    // Location data
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 8 * HOUR, source: 'location', category: 'location', title: 'Home — Maple Street Apartments', details: '123 Maple St, Apt 4B', entities: ['Maple Street Apartments'] },
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 9 * HOUR, source: 'location', category: 'location', title: 'Starbucks — Downtown', details: '456 Main St', entities: ['Starbucks'] },
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 10 * HOUR, source: 'location', category: 'location', title: 'TechCorp Office', details: '789 Innovation Blvd', entities: ['TechCorp'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 8 * HOUR, source: 'location', category: 'location', title: 'Home — Maple Street Apartments', details: '123 Maple St, Apt 4B', entities: ['Maple Street Apartments'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 9 * HOUR, source: 'location', category: 'location', title: 'TechCorp Office', details: '789 Innovation Blvd', entities: ['TechCorp'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 18 * HOUR, source: 'location', category: 'location', title: 'Planet Fitness — West Side', details: '321 Gym Ave', entities: ['Planet Fitness'] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 8 * HOUR, source: 'location', category: 'location', title: 'Home — Maple Street Apartments', details: '123 Maple St, Apt 4B', entities: ['Maple Street Apartments'] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 9 * HOUR, source: 'location', category: 'location', title: 'TechCorp Office', details: '789 Innovation Blvd', entities: ['TechCorp'] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 12 * HOUR, source: 'location', category: 'location', title: 'Chase Bank Branch', details: '555 Financial Dr', entities: ['Chase Bank'] },
-    { id: nid(), timestamp: BASE_TIME + 8 * DAY + 14 * HOUR, source: 'location', category: 'location', title: 'Dr. Martinez Family Clinic', details: '222 Health Way', entities: ['Dr. Martinez'] },
-    { id: nid(), timestamp: BASE_TIME + 12 * DAY + 10 * HOUR, source: 'location', category: 'location', title: 'SFO International Airport', details: 'San Francisco, CA', entities: ['SFO', 'San Francisco'] },
-    { id: nid(), timestamp: BASE_TIME + 15 * DAY + 8 * HOUR, source: 'location', category: 'location', title: 'Home — Maple Street Apartments', details: '123 Maple St, Apt 4B', entities: ['Maple Street Apartments'] },
-    { id: nid(), timestamp: BASE_TIME + 20 * DAY + 9 * HOUR, source: 'location', category: 'location', title: 'TechCorp Office', details: '789 Innovation Blvd', entities: ['TechCorp'] },
+    // ── Location ──
+    evt(1, 7, 'location', 'location', '37.7749, -122.4194', 'Accuracy: 25m | Source: WIFI', ['37.77,-122.42']),
+    evt(1, 9, 'location', 'location', '37.7897, -122.3972', 'Accuracy: 20m | Source: WIFI', ['37.79,-122.40']),
+    evt(1, 18, 'location', 'location', '37.7694, -122.4283', 'Accuracy: 40m | Source: WIFI', ['37.77,-122.43']),
+    evt(2, 7, 'location', 'location', '37.7749, -122.4194', 'Accuracy: 22m | Source: WIFI', ['37.77,-122.42']),
+    evt(2, 9, 'location', 'location', '37.7897, -122.3972', 'Accuracy: 18m | Source: WIFI', ['37.79,-122.40']),
+    evt(3, 8, 'location', 'location', '37.7855, -122.4090', 'Accuracy: 50m | Source: WIFI', ['37.79,-122.41']),
+    evt(3, 9, 'location', 'location', '37.7897, -122.3972', 'Accuracy: 19m | Source: WIFI', ['37.79,-122.40']),
+    evt(4, 7, 'location', 'location', '37.7749, -122.4194', 'Accuracy: 28m | Source: WIFI', ['37.77,-122.42']),
+    evt(4, 10, 'location', 'location', '37.7901, -122.4013', 'Accuracy: 30m | Source: WIFI', ['37.79,-122.40']),
+    evt(5, 7, 'location', 'location', '37.7749, -122.4194', 'Accuracy: 24m | Source: WIFI', ['37.77,-122.42']),
+    evt(5, 9, 'location', 'location', '37.7897, -122.3972', 'Accuracy: 21m | Source: WIFI', ['37.79,-122.40']),
+    evt(5, 18, 'location', 'location', '37.7694, -122.4283', 'Accuracy: 38m | Source: WIFI', ['37.77,-122.43']),
+    evt(7, 11, 'location', 'location', '37.8199, -122.4783', 'Accuracy: 100m | Source: GPS', ['37.82,-122.48']),
+    evt(10, 14, 'location', 'location', '37.7631, -122.4576', 'Accuracy: 20m | Source: WIFI', ['37.76,-122.46']),
 
-    // Browser history
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 9.5 * HOUR, source: 'browser_history', category: 'financial', title: 'Chase Online Banking — Account Summary', details: 'chase.com', entities: ['chase.com'] },
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 10.5 * HOUR, source: 'browser_history', category: 'browsing', title: 'Stack Overflow — React Force Graph', details: 'stackoverflow.com', entities: ['stackoverflow.com'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 12 * HOUR, source: 'browser_history', category: 'social', title: 'LinkedIn — John Smith Profile', details: 'linkedin.com', entities: ['linkedin.com', 'John Smith'] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 11 * HOUR, source: 'browser_history', category: 'shopping', title: 'Amazon — AirPods Pro 3 — Order Confirmation', details: 'amazon.com', entities: ['amazon.com'] },
-    { id: nid(), timestamp: BASE_TIME + 4 * DAY + 14 * HOUR, source: 'browser_history', category: 'financial', title: 'Coinbase — Portfolio Dashboard', details: 'coinbase.com', entities: ['coinbase.com'] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 16 * HOUR, source: 'browser_history', category: 'travel', title: 'United Airlines — Flight Booking SFO', details: 'united.com', entities: ['united.com'] },
-    { id: nid(), timestamp: BASE_TIME + 6 * DAY + 10 * HOUR, source: 'browser_history', category: 'browsing', title: 'Gmail — Inbox', details: 'mail.google.com', entities: ['mail.google.com'] },
-    { id: nid(), timestamp: BASE_TIME + 7 * DAY + 15 * HOUR, source: 'browser_history', category: 'social', title: 'Twitter — Home Timeline', details: 'twitter.com', entities: ['twitter.com'] },
-    { id: nid(), timestamp: BASE_TIME + 9 * DAY + 11 * HOUR, source: 'browser_history', category: 'health', title: 'WebMD — Vitamin D Deficiency Symptoms', details: 'webmd.com', entities: ['webmd.com'] },
-    { id: nid(), timestamp: BASE_TIME + 11 * DAY + 14 * HOUR, source: 'browser_history', category: 'financial', title: 'Fidelity — 401k Balance', details: 'fidelity.com', entities: ['fidelity.com'] },
+    // ── Browser History ──
+    evt(1, 8, 'browser_history', 'financial', 'Chase | Account Dashboard', 'secure.chase.com', ['chase.com']),
+    evt(2, 10, 'browser_history', 'financial', 'Coinbase — Portfolio', 'coinbase.com', ['coinbase.com']),
+    evt(3, 11, 'browser_history', 'social', 'Mike Chen — Software Engineer at TechCorp | LinkedIn', 'linkedin.com', ['Mike Chen', 'linkedin.com']),
+    evt(4, 9, 'browser_history', 'shopping', 'AirPods Pro 3 — Amazon.com', 'amazon.com', ['amazon.com']),
+    evt(5, 14, 'browser_history', 'health', 'Vitamin D Deficiency: Symptoms — WebMD', 'webmd.com', ['webmd.com']),
+    evt(7, 10, 'browser_history', 'travel', 'United Airlines — Booking Confirmation', 'united.com', ['united.com']),
+    evt(8, 16, 'browser_history', 'browsing', 'alex-rivera/datashadow — GitHub', 'github.com', ['github.com']),
+    evt(10, 9, 'browser_history', 'health', 'MyChart — UCSF Health', 'mychart.ucsfhealth.org', ['ucsfhealth.org']),
+    evt(12, 20, 'browser_history', 'other', 'San Francisco CA Real Estate — Zillow', 'zillow.com', ['zillow.com']),
+    evt(14, 8, 'browser_history', 'financial', 'Credit Karma — Your Credit Score', 'creditkarma.com', ['creditkarma.com']),
+    evt(16, 11, 'browser_history', 'financial', 'Fidelity — 401(k) Balance', 'fidelity.com', ['fidelity.com']),
+    evt(18, 17, 'browser_history', 'other', 'Engagement Rings in San Francisco — Yelp', 'yelp.com', ['yelp.com']),
 
-    // Email metadata
-    { id: nid(), timestamp: BASE_TIME + 1 * DAY + 7 * HOUR, source: 'email', category: 'communication', title: 'Re: Project Sprint Planning', details: 'From: mike.chen@techcorp.com → To: user@gmail.com', entities: ['mike.chen@techcorp.com'] },
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 10 * HOUR, source: 'email', category: 'financial', title: 'Your Chase Statement is Ready', details: 'From: no-reply@chase.com → To: user@gmail.com', entities: ['no-reply@chase.com'] },
-    { id: nid(), timestamp: BASE_TIME + 3 * DAY + 15 * HOUR, source: 'email', category: 'shopping', title: 'Your Amazon Order Has Shipped', details: 'From: ship-confirm@amazon.com → To: user@gmail.com', entities: ['ship-confirm@amazon.com'] },
-    { id: nid(), timestamp: BASE_TIME + 4 * DAY + 9 * HOUR, source: 'email', category: 'communication', title: 'Meeting Tomorrow at 3pm', details: 'From: sarah.johnson@techcorp.com → To: user@gmail.com', entities: ['sarah.johnson@techcorp.com'] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 11 * HOUR, source: 'email', category: 'travel', title: 'Your United Airlines Booking Confirmation', details: 'From: reservations@united.com → To: user@gmail.com', entities: ['reservations@united.com'] },
-    { id: nid(), timestamp: BASE_TIME + 6 * DAY + 8 * HOUR, source: 'email', category: 'communication', title: 'Invitation: Team Offsite in SF', details: 'From: hr@techcorp.com → To: user@gmail.com', entities: ['hr@techcorp.com'] },
-    { id: nid(), timestamp: BASE_TIME + 8 * DAY + 14 * HOUR, source: 'email', category: 'health', title: 'Appointment Reminder — Dr. Martinez', details: 'From: appointments@familyclinic.com → To: user@gmail.com', entities: ['appointments@familyclinic.com', 'Dr. Martinez'] },
-    { id: nid(), timestamp: BASE_TIME + 10 * DAY + 9 * HOUR, source: 'email', category: 'financial', title: 'Coinbase: Your Weekly Portfolio Summary', details: 'From: no-reply@coinbase.com → To: user@gmail.com', entities: ['no-reply@coinbase.com'] },
-    { id: nid(), timestamp: BASE_TIME + 12 * DAY + 16 * HOUR, source: 'email', category: 'communication', title: 'Re: Weekend Plans?', details: 'From: alex.rivera@gmail.com → To: user@gmail.com', entities: ['alex.rivera@gmail.com'] },
-    { id: nid(), timestamp: BASE_TIME + 14 * DAY + 10 * HOUR, source: 'email', category: 'financial', title: 'Your Fidelity 401(k) Quarterly Statement', details: 'From: statements@fidelity.com → To: user@gmail.com', entities: ['statements@fidelity.com'] },
+    // ── Email Metadata ──
+    evt(1, 9, 'email', 'communication', 'Re: Sprint Planning — Q1 Goals', 'From: mike.chen@techcorp.io → To: alex.rivera.dev@gmail.com', ['Mike Chen', 'mike.chen@techcorp.io', 'Techcorp']),
+    evt(2, 10, 'email', 'communication', '1:1 Meeting Tomorrow at 3pm', 'From: sarah.johnson@techcorp.io → To: alex.rivera.dev@gmail.com', ['Sarah Johnson', 'sarah.johnson@techcorp.io', 'Techcorp']),
+    evt(3, 14, 'email', 'financial', 'Your December Statement is Ready', 'From: no-reply@chase.com → To: alex.rivera.dev@gmail.com', ['chase.com']),
+    evt(4, 8, 'email', 'financial', 'Alert: Transaction of $2,847.00 at Apple Store', 'From: no-reply@chase.com → To: alex.rivera.dev@gmail.com', ['chase.com']),
+    evt(5, 11, 'email', 'shopping', 'Your Amazon Order Has Shipped — AirPods Pro 3', 'From: ship-confirm@amazon.com → To: alex.rivera.dev@gmail.com', ['amazon.com']),
+    evt(7, 15, 'email', 'travel', 'Booking Confirmation — SFO to JFK Dec 20', 'From: reservations@united.com → To: alex.rivera.dev@gmail.com', ['united.com']),
+    evt(8, 10, 'email', 'health', 'Appointment Reminder — Dr. Lisa Huang, Jan 15', 'From: appointments@ucsfhealth.org → To: alex.rivera.dev@gmail.com', ['Dr. Lisa Huang', 'ucsfhealth.org']),
+    evt(10, 9, 'email', 'financial', 'Your Weekly Portfolio Summary — +12.4%', 'From: no-reply@coinbase.com → To: alex.rivera.dev@gmail.com', ['coinbase.com']),
+    evt(12, 16, 'email', 'communication', 'Re: Dinner Saturday? Bringing David too!', 'From: priya.patel@gmail.com → To: alex.rivera.dev@gmail.com', ['Priya Patel', 'priya.patel@gmail.com']),
+    evt(14, 8, 'email', 'communication', 'Found a great cooking class for us ❤️', 'From: emma.w@protonmail.com → To: alex.rivera.dev@gmail.com', ['Emma Wilson', 'emma.w@protonmail.com']),
+    evt(16, 11, 'email', 'financial', 'Your Credit Score Changed — Now 782', 'From: no-reply@creditkarma.com → To: alex.rivera.dev@gmail.com', ['creditkarma.com']),
+    evt(18, 14, 'email', 'communication', 'Stanford MS CS — Application Tips', 'From: david.kim@stanford.edu → To: alex.rivera.dev@gmail.com', ['David Kim', 'david.kim@stanford.edu', 'Stanford']),
+    evt(20, 9, 'email', 'financial', 'Q4 2024 — 401(k) Statement Available', 'From: statements@fidelity.com → To: alex.rivera.dev@gmail.com', ['fidelity.com']),
 
-    // Social media
-    { id: nid(), timestamp: BASE_TIME + 2 * DAY + 20 * HOUR, source: 'social_media', category: 'social', title: 'Just started learning React — loving it so far! #coding #webdev', details: 'By: UserProfile', entities: [] },
-    { id: nid(), timestamp: BASE_TIME + 5 * DAY + 19 * HOUR, source: 'social_media', category: 'social', title: 'Excited for the SF trip next week!', details: 'By: UserProfile', entities: ['San Francisco'] },
-    { id: nid(), timestamp: BASE_TIME + 8 * DAY + 21 * HOUR, source: 'social_media', category: 'social', title: '@mike.chen great presentation today! Team killed it', details: 'By: UserProfile', entities: ['mike.chen'] },
-    { id: nid(), timestamp: BASE_TIME + 11 * DAY + 18 * HOUR, source: 'social_media', category: 'social', title: 'Coffee at the usual spot #starbucks #downtown', details: 'By: UserProfile', entities: ['Starbucks'] },
-    { id: nid(), timestamp: BASE_TIME + 15 * DAY + 20 * HOUR, source: 'social_media', category: 'social', title: 'Finally hit my fitness goal this month! #planetfitness', details: 'By: UserProfile', entities: ['Planet Fitness'] },
+    // ── Social Media ──
+    evt(2, 12, 'social_media', 'social', 'Just shipped a major feature at work! The entity graph visualization is looking 🔥 #coding #react', 'By: Alex Rivera', ['Alex Rivera', 'coding', 'react']),
+    evt(5, 10, 'social_media', 'social', 'Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco', 'By: Alex Rivera', ['Alex Rivera', 'sanfrancisco']),
+    evt(8, 19, 'social_media', 'social', '@mike.chen great pairing session today! That gRPC migration is going to be smooth', 'By: Alex Rivera', ['Alex Rivera', 'mike.chen']),
+    evt(11, 14, 'social_media', 'social', 'Excited for our Tokyo trip in January! ✈️🇯🇵', 'By: Alex Rivera', ['Alex Rivera']),
+    evt(14, 18, 'social_media', 'social', 'Finally hit my deadlift PR at Planet Fitness! 315lbs 💪 #fitness', 'By: Alex Rivera', ['Alex Rivera', 'fitness']),
+    evt(17, 11, 'social_media', 'social', '@priya.patel @david.kim amazing dinner last night!', 'By: Alex Rivera', ['Alex Rivera', 'priya.patel', 'david.kim']),
+    evt(20, 20, 'social_media', 'social', 'Happy birthday @emma.wilson! Here\'s to many more adventures together ❤️', 'By: Alex Rivera', ['Alex Rivera', 'emma.wilson']),
+    evt(22, 15, 'social_media', 'social', 'One year at TechCorp! Time flies when you love what you do 🎉', 'By: Alex Rivera', ['Alex Rivera', 'Techcorp']),
 ];
-    

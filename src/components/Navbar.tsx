@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Shield, LayoutDashboard, Share2, Clock, AlertTriangle } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { useShadow } from '../store/shadowStore';
 
 export default function Navbar() {
@@ -13,7 +13,7 @@ export default function Navbar() {
                     <Shield size={20} color="white" />
                 </div>
                 <div>
-                    <h1>MyShadow</h1>
+                    <h1>DataShadow</h1>
                     <span>Privacy Audit Tool</span>
                 </div>
             </NavLink>
@@ -21,7 +21,6 @@ export default function Navbar() {
             {analyzed && (
                 <div className="navbar-links">
                     <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
-                        <LayoutDashboard size={15} />
                         Dashboard
                     </NavLink>
                 </div>

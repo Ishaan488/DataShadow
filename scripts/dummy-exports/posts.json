@@ -1,0 +1,914 @@
+[
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1764254386,
+    "created_at": "2025-11-27T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 120,
+    "retweets": 11
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1764272386,
+    "created_at": "2025-11-27T19:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 85,
+    "retweets": 11
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1764535186,
+    "created_at": "2025-11-30T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 67,
+    "retweets": 8
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1764614386,
+    "created_at": "2025-12-01T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 74,
+    "retweets": 9
+  },
+  {
+    "text": "Coffee at Blue Bottle before work. The usual ☕ #bluebottle #sf",
+    "timestamp": 1764610786,
+    "created_at": "2025-12-01T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 104,
+    "retweets": 1
+  },
+  {
+    "text": "Coffee at Blue Bottle before work. The usual ☕ #bluebottle #sf",
+    "timestamp": 1764625186,
+    "created_at": "2025-12-01T21:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 14,
+    "retweets": 1
+  },
+  {
+    "text": "Great talk by @carlos.mendez at the SF React Meetup tonight 👏",
+    "timestamp": 1764693586,
+    "created_at": "2025-12-02T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "carlos.mendez"
+    ],
+    "likes": 64,
+    "retweets": 8
+  },
+  {
+    "text": "Just shipped a major feature at work! The entity graph visualization is looking 🔥 #coding #react #typescript",
+    "timestamp": 1764812386,
+    "created_at": "2025-12-04T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 51,
+    "retweets": 5
+  },
+  {
+    "text": "Saturday farmers market haul 🥬🍅 Trying a new recipe tonight",
+    "timestamp": 1764794386,
+    "created_at": "2025-12-03T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 22,
+    "retweets": 4
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1765031986,
+    "created_at": "2025-12-06T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 27,
+    "retweets": 1
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1765323586,
+    "created_at": "2025-12-09T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 106,
+    "retweets": 13
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1765291186,
+    "created_at": "2025-12-09T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 41,
+    "retweets": 5
+  },
+  {
+    "text": "Just shipped a major feature at work! The entity graph visualization is looking 🔥 #coding #react #typescript",
+    "timestamp": 1765327186,
+    "created_at": "2025-12-10T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 92,
+    "retweets": 10
+  },
+  {
+    "text": "Great talk by @carlos.mendez at the SF React Meetup tonight 👏",
+    "timestamp": 1765514386,
+    "created_at": "2025-12-12T04:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "carlos.mendez"
+    ],
+    "likes": 77,
+    "retweets": 10
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1765496386,
+    "created_at": "2025-12-11T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 22,
+    "retweets": 0
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1765503586,
+    "created_at": "2025-12-12T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 17,
+    "retweets": 14
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1765762786,
+    "created_at": "2025-12-15T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 63,
+    "retweets": 5
+  },
+  {
+    "text": "Saturday farmers market haul 🥬🍅 Trying a new recipe tonight",
+    "timestamp": 1765751986,
+    "created_at": "2025-12-14T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 114,
+    "retweets": 15
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1765755586,
+    "created_at": "2025-12-14T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 112,
+    "retweets": 11
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1765841986,
+    "created_at": "2025-12-15T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 97,
+    "retweets": 3
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1765921186,
+    "created_at": "2025-12-16T21:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 25,
+    "retweets": 4
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1765935586,
+    "created_at": "2025-12-17T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 47,
+    "retweets": 2
+  },
+  {
+    "text": "TechCorp hackathon was incredible. Our team built a privacy audit tool in 48 hours!",
+    "timestamp": 1766025586,
+    "created_at": "2025-12-18T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 55,
+    "retweets": 2
+  },
+  {
+    "text": "Finally hit my deadlift PR at Planet Fitness! 315lbs 💪 #fitness #planetfitness",
+    "timestamp": 1765985986,
+    "created_at": "2025-12-17T15:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 13,
+    "retweets": 10
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1766155186,
+    "created_at": "2025-12-19T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 15,
+    "retweets": 2
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1766198386,
+    "created_at": "2025-12-20T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 30,
+    "retweets": 15
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1766201986,
+    "created_at": "2025-12-20T03:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 73,
+    "retweets": 7
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1766263186,
+    "created_at": "2025-12-20T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 79,
+    "retweets": 3
+  },
+  {
+    "text": "Coffee at Blue Bottle before work. The usual ☕ #bluebottle #sf",
+    "timestamp": 1766335186,
+    "created_at": "2025-12-21T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 103,
+    "retweets": 12
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1766367586,
+    "created_at": "2025-12-22T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 16,
+    "retweets": 8
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1766425186,
+    "created_at": "2025-12-22T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 68,
+    "retweets": 8
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1766425186,
+    "created_at": "2025-12-22T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 120,
+    "retweets": 1
+  },
+  {
+    "text": "TechCorp hackathon was incredible. Our team built a privacy audit tool in 48 hours!",
+    "timestamp": 1766867986,
+    "created_at": "2025-12-27T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 115,
+    "retweets": 11
+  },
+  {
+    "text": "Reading about privacy in the age of AI. Everyone should check their Google Takeout data 🔐",
+    "timestamp": 1766875186,
+    "created_at": "2025-12-27T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 69,
+    "retweets": 15
+  },
+  {
+    "text": "Great talk by @carlos.mendez at the SF React Meetup tonight 👏",
+    "timestamp": 1766857186,
+    "created_at": "2025-12-27T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "carlos.mendez"
+    ],
+    "likes": 40,
+    "retweets": 9
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1766939986,
+    "created_at": "2025-12-28T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 69,
+    "retweets": 13
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1766968786,
+    "created_at": "2025-12-29T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 97,
+    "retweets": 10
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1766983186,
+    "created_at": "2025-12-29T04:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 51,
+    "retweets": 15
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1767051586,
+    "created_at": "2025-12-29T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 77,
+    "retweets": 13
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1767058786,
+    "created_at": "2025-12-30T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 117,
+    "retweets": 15
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1767058786,
+    "created_at": "2025-12-30T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 64,
+    "retweets": 12
+  },
+  {
+    "text": "TechCorp hackathon was incredible. Our team built a privacy audit tool in 48 hours!",
+    "timestamp": 1767325186,
+    "created_at": "2026-01-02T03:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 83,
+    "retweets": 7
+  },
+  {
+    "text": "Great talk by @carlos.mendez at the SF React Meetup tonight 👏",
+    "timestamp": 1767389986,
+    "created_at": "2026-01-02T21:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "carlos.mendez"
+    ],
+    "likes": 84,
+    "retweets": 10
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1767404386,
+    "created_at": "2026-01-03T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 50,
+    "retweets": 10
+  },
+  {
+    "text": "Just shipped a major feature at work! The entity graph visualization is looking 🔥 #coding #react #typescript",
+    "timestamp": 1767569986,
+    "created_at": "2026-01-04T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 65,
+    "retweets": 14
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1767555586,
+    "created_at": "2026-01-04T19:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 93,
+    "retweets": 10
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1767544786,
+    "created_at": "2026-01-04T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 48,
+    "retweets": 10
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1767742786,
+    "created_at": "2026-01-06T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 93,
+    "retweets": 15
+  },
+  {
+    "text": "Finally hit my deadlift PR at Planet Fitness! 315lbs 💪 #fitness #planetfitness",
+    "timestamp": 1767915586,
+    "created_at": "2026-01-08T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 53,
+    "retweets": 11
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1767911986,
+    "created_at": "2026-01-08T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 59,
+    "retweets": 4
+  },
+  {
+    "text": "Reading about privacy in the age of AI. Everyone should check their Google Takeout data 🔐",
+    "timestamp": 1767897586,
+    "created_at": "2026-01-08T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 102,
+    "retweets": 13
+  },
+  {
+    "text": "Saturday farmers market haul 🥬🍅 Trying a new recipe tonight",
+    "timestamp": 1767983986,
+    "created_at": "2026-01-09T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 10,
+    "retweets": 12
+  },
+  {
+    "text": "@priya.patel @david.kim amazing dinner last night! We need to do that more often",
+    "timestamp": 1768160386,
+    "created_at": "2026-01-11T19:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "priya.patel",
+      "david.kim"
+    ],
+    "likes": 29,
+    "retweets": 4
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1768160386,
+    "created_at": "2026-01-11T19:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 16,
+    "retweets": 7
+  },
+  {
+    "text": "Great talk by @carlos.mendez at the SF React Meetup tonight 👏",
+    "timestamp": 1768336786,
+    "created_at": "2026-01-13T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "carlos.mendez"
+    ],
+    "likes": 80,
+    "retweets": 3
+  },
+  {
+    "text": "Reading about privacy in the age of AI. Everyone should check their Google Takeout data 🔐",
+    "timestamp": 1768347586,
+    "created_at": "2026-01-13T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 81,
+    "retweets": 2
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1768448386,
+    "created_at": "2026-01-15T03:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 98,
+    "retweets": 15
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1768574386,
+    "created_at": "2026-01-16T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 45,
+    "retweets": 1
+  },
+  {
+    "text": "@priya.patel @david.kim amazing dinner last night! We need to do that more often",
+    "timestamp": 1768581586,
+    "created_at": "2026-01-16T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "priya.patel",
+      "david.kim"
+    ],
+    "likes": 47,
+    "retweets": 14
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1768703986,
+    "created_at": "2026-01-18T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 106,
+    "retweets": 3
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1768847986,
+    "created_at": "2026-01-19T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 31,
+    "retweets": 5
+  },
+  {
+    "text": "Just discovered my location history has 3000+ data points. Privacy is a myth. 😳",
+    "timestamp": 1768847986,
+    "created_at": "2026-01-19T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 1,
+    "retweets": 0
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1768840786,
+    "created_at": "2026-01-19T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 120,
+    "retweets": 15
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1769013586,
+    "created_at": "2026-01-21T16:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 76,
+    "retweets": 8
+  },
+  {
+    "text": "@priya.patel @david.kim amazing dinner last night! We need to do that more often",
+    "timestamp": 1769107186,
+    "created_at": "2026-01-22T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "priya.patel",
+      "david.kim"
+    ],
+    "likes": 95,
+    "retweets": 2
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1769096386,
+    "created_at": "2026-01-22T15:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 60,
+    "retweets": 6
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1769128786,
+    "created_at": "2026-01-23T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 33,
+    "retweets": 0
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1769204386,
+    "created_at": "2026-01-23T21:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 12,
+    "retweets": 9
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1769366386,
+    "created_at": "2026-01-25T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 65,
+    "retweets": 10
+  },
+  {
+    "text": "Saturday farmers market haul 🥬🍅 Trying a new recipe tonight",
+    "timestamp": 1769362786,
+    "created_at": "2026-01-25T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 99,
+    "retweets": 2
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1769546386,
+    "created_at": "2026-01-27T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 53,
+    "retweets": 13
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1769920786,
+    "created_at": "2026-02-01T04:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 47,
+    "retweets": 6
+  },
+  {
+    "text": "@priya.patel @david.kim amazing dinner last night! We need to do that more often",
+    "timestamp": 1769906386,
+    "created_at": "2026-02-01T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "priya.patel",
+      "david.kim"
+    ],
+    "likes": 41,
+    "retweets": 8
+  },
+  {
+    "text": "Excited for our Tokyo trip in January! ✈️🇯🇵 Anyone have restaurant recommendations?",
+    "timestamp": 1769985586,
+    "created_at": "2026-02-01T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 83,
+    "retweets": 11
+  },
+  {
+    "text": "TechCorp hackathon was incredible. Our team built a privacy audit tool in 48 hours!",
+    "timestamp": 1770169186,
+    "created_at": "2026-02-04T01:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 33,
+    "retweets": 5
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1770151186,
+    "created_at": "2026-02-03T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 108,
+    "retweets": 3
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1770316786,
+    "created_at": "2026-02-05T18:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 24,
+    "retweets": 0
+  },
+  {
+    "text": "Happy birthday @emma.wilson! Here's to many more adventures together ❤️",
+    "timestamp": 1770338386,
+    "created_at": "2026-02-06T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "emma.wilson"
+    ],
+    "likes": 19,
+    "retweets": 7
+  },
+  {
+    "text": "System design interview prep is no joke. Grateful for friends who help me practice @david.kim",
+    "timestamp": 1770421186,
+    "created_at": "2026-02-06T23:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "david.kim"
+    ],
+    "likes": 90,
+    "retweets": 0
+  },
+  {
+    "text": "Reading about privacy in the age of AI. Everyone should check their Google Takeout data 🔐",
+    "timestamp": 1770410386,
+    "created_at": "2026-02-06T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 94,
+    "retweets": 2
+  },
+  {
+    "text": "@priya.patel @david.kim amazing dinner last night! We need to do that more often",
+    "timestamp": 1770496786,
+    "created_at": "2026-02-07T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "priya.patel",
+      "david.kim"
+    ],
+    "likes": 94,
+    "retweets": 6
+  },
+  {
+    "text": "Coffee at Blue Bottle before work. The usual ☕ #bluebottle #sf",
+    "timestamp": 1770683986,
+    "created_at": "2026-02-10T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 38,
+    "retweets": 2
+  },
+  {
+    "text": "Reading about privacy in the age of AI. Everyone should check their Google Takeout data 🔐",
+    "timestamp": 1770691186,
+    "created_at": "2026-02-10T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 111,
+    "retweets": 12
+  },
+  {
+    "text": "Just shipped a major feature at work! The entity graph visualization is looking 🔥 #coding #react #typescript",
+    "timestamp": 1770831586,
+    "created_at": "2026-02-11T17:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 4,
+    "retweets": 10
+  },
+  {
+    "text": "@mike.chen great pairing session today! That gRPC migration is going to be smooth",
+    "timestamp": 1770935986,
+    "created_at": "2026-02-12T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [
+      "mike.chen"
+    ],
+    "likes": 101,
+    "retweets": 8
+  },
+  {
+    "text": "TechCorp hackathon was incredible. Our team built a privacy audit tool in 48 hours!",
+    "timestamp": 1771123186,
+    "created_at": "2026-02-15T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 68,
+    "retweets": 5
+  },
+  {
+    "text": "Just discovered my location history has 3000+ data points. Privacy is a myth. 😳",
+    "timestamp": 1771083586,
+    "created_at": "2026-02-14T15:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 48,
+    "retweets": 14
+  },
+  {
+    "text": "Finally hit my deadlift PR at Planet Fitness! 315lbs 💪 #fitness #planetfitness",
+    "timestamp": 1771216786,
+    "created_at": "2026-02-16T04:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 57,
+    "retweets": 7
+  },
+  {
+    "text": "Weekend exploring the Ferry Building Marketplace. The oysters are unreal 🦪 #sf #foodie",
+    "timestamp": 1771295986,
+    "created_at": "2026-02-17T02:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 67,
+    "retweets": 8
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1771252786,
+    "created_at": "2026-02-16T14:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 19,
+    "retweets": 13
+  },
+  {
+    "text": "Morning run across the Golden Gate Bridge — nothing beats this city 🌁 #sanfrancisco #running",
+    "timestamp": 1771288786,
+    "created_at": "2026-02-17T00:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 97,
+    "retweets": 2
+  },
+  {
+    "text": "One year at TechCorp! Time flies when you love what you do 🎉",
+    "timestamp": 1771713586,
+    "created_at": "2026-02-21T22:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 112,
+    "retweets": 3
+  },
+  {
+    "text": "Coffee at Blue Bottle before work. The usual ☕ #bluebottle #sf",
+    "timestamp": 1771879186,
+    "created_at": "2026-02-23T20:39:46.978Z",
+    "sender_name": "Alex Rivera",
+    "mentions": [],
+    "likes": 99,
+    "retweets": 0
+  }
+]
