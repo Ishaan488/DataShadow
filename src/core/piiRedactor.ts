@@ -69,38 +69,45 @@ export class PIIRedactor {
     }
 
     /**
-     * Build a redacted summary of events for GenAI consumption.
+     * Build a rich, chronological redacted summary of events to fully utilize the GenAI context window.
      */
     buildRedactedSummary(
-        events: Array<{ title: string; category: string; source: string }>,
+        events: Array<{ timestamp: number; title: string; category: string; source: string }>,
         riskBreakdown: Record<string, number>
     ): string {
         const categoryCount = new Map<string, number>();
         const sourceCount = new Map<string, number>();
-        const redactedTopics: string[] = [];
 
-        for (const event of events) {
+        // We can pass up to ~1000 events safely within even a small fraction of the 1M token window
+        const maxTimelineEvents = 1000;
+        const timeline: string[] = [];
+
+        // Sort events chronologically to help the LLM understand behavioral flow
+        const sortedEvents = [...events].sort((a, b) => a.timestamp - b.timestamp);
+
+        for (let i = 0; i < sortedEvents.length; i++) {
+            const event = sortedEvents[i];
             categoryCount.set(event.category, (categoryCount.get(event.category) || 0) + 1);
             sourceCount.set(event.source, (sourceCount.get(event.source) || 0) + 1);
-            if (redactedTopics.length < 30) {
-                redactedTopics.push(this.redact(event.title));
+            
+            if (timeline.length < maxTimelineEvents) {
+                const date = new Date(event.timestamp).toISOString().split('T');
+                const timeStr = `${date[0]} ${date[1].slice(0, 5)}`; // YYYY-MM-DD HH:MM
+                timeline.push(`[${timeStr}] [${event.source.toUpperCase()}] ${event.category}: ${this.redact(event.title)}`);
             }
         }
 
         const lines: string[] = [
             `Total events analyzed: ${events.length}`,
             '',
-            'Event categories:',
-            ...Array.from(categoryCount.entries()).map(([k, v]) => `  - ${k}: ${v}`),
-            '',
-            'Data sources:',
-            ...Array.from(sourceCount.entries()).map(([k, v]) => `  - ${k}: ${v}`),
-            '',
             'Risk scores:',
             ...Object.entries(riskBreakdown).map(([k, v]) => `  - ${k}: ${v}/100`),
             '',
-            'Sample topics (redacted):',
-            ...redactedTopics.map(t => `  - ${t}`),
+            'Data sources breakdown:',
+            ...Array.from(sourceCount.entries()).map(([k, v]) => `  - ${k}: ${v}`),
+            '',
+            `CHRONOLOGICAL EVENT TIMELINE (First ${timeline.length} events, redacted):`,
+            ...timeline
         ];
 
         return lines.join('\n');

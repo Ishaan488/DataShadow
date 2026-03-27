@@ -4,13 +4,34 @@ import { RiskScore, ShadowEvent, Entity, ThreatNarrative } from '../core/types';
 /**
  * Generate a comprehensive PDF privacy audit report.
  */
-export function generatePDFReport(
+export async function generatePDFReport(
     events: ShadowEvent[],
     entities: Entity[],
     riskScore: RiskScore,
     threats: ThreatNarrative[]
-): void {
+): Promise<void> {
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    try {
+        // Fetch Unicode font (Noto Sans) to prevent international character corruption
+        const res = await fetch('https://cdn.jsdelivr.net/gh/googlefonts/noto-fonts/unhinted/ttf/NotoSans/NotoSans-Regular.ttf');
+        const blob = await res.blob();
+        const base64Font = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve((reader.result as string).split(',')[1]);
+            reader.readAsDataURL(blob);
+        });
+        
+        doc.addFileToVFS('NotoSans.ttf', base64Font);
+        doc.addFont('NotoSans.ttf', 'NotoSans', 'normal');
+        doc.addFont('NotoSans.ttf', 'NotoSans', 'bold'); // Treat same file as bold to prevent crashes when bold is requested
+    } catch (e) {
+        console.warn('Failed to load Unicode font, falling back to Helvetica', e);
+    }
+
+    // Default to NotoSans if loaded, otherwise helvetica
+    const fontFamily = doc.getFontList()['NotoSans'] ? 'NotoSans' : 'helvetica';
+
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
@@ -52,7 +73,7 @@ export function generatePDFReport(
         checkPage(15);
         doc.setFontSize(14);
         doc.setTextColor(...colors.primary);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont(fontFamily, 'bold');
         doc.text(title, margin, y);
         y += 2;
         doc.setDrawColor(...colors.primary);
@@ -79,7 +100,7 @@ export function generatePDFReport(
 
         doc.setFontSize(9);
         doc.setTextColor(...colors.text);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont(fontFamily, 'normal');
         doc.text(label, margin, barY + 4);
 
         // Track
@@ -94,7 +115,7 @@ export function generatePDFReport(
         // Score
         doc.setFontSize(10);
         doc.setTextColor(...riskColor);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont(fontFamily, 'bold');
         doc.text(`${score}/100`, barX + barWidth + 5, barY + 4);
     }
 
@@ -226,7 +247,7 @@ export function generatePDFReport(
         doc.roundedRect(margin, y - 3, 18, 6, 2, 2, 'F');
         doc.setFontSize(7);
         doc.setTextColor(...colors.white);
-        doc.setFont('helvetica', 'bold');
+        doc.setFont(fontFamily, 'bold');
         doc.text(threat.severity.toUpperCase(), margin + 2, y + 1);
 
         // Title

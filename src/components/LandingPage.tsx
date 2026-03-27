@@ -39,47 +39,105 @@ export default function LandingPage() {
     const [files, setFiles] = useState<UploadedFile[]>([]);
     const [parseErrors, setParseErrors] = useState<ParseError[]>([]);
     const [dragging, setDragging] = useState(false);
-    const [apiKey, setApiKey] = useState(() => localStorage.getItem('datashadow_apikey') || '');
+    const [apiKey, setApiKey] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const workerRef = useRef<Worker | null>(null);
+
+    // Initialize Web Worker once
+    if (!workerRef.current) {
+        try {
+            workerRef.current = new Worker(new URL('../core/worker.ts', import.meta.url), { type: 'module' });
+            workerRef.current.onerror = (e) => {
+                console.error("Web Worker Initialization Error:", e);
+                setParseErrors(prev => [...prev, { source: 'unknown', filename: 'worker', message: `Worker crashed: ${e.message}`, suggestion: 'Reload app.' }]);
+            };
+        } catch (err) {
+            console.error("Failed to create Web Worker", err);
+        }
+    }
+
+    const runWorkerTask = (action: string, payload: any, onProgress?: (data: any) => void): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            if (!workerRef.current) return reject(new Error('Worker not initialized'));
+            
+            const msgId = Math.random().toString(36).substring(7);
+            const timeout = setTimeout(() => {
+                workerRef.current?.removeEventListener('message', handler);
+                reject(new Error(`Worker task timed out after 30 seconds [Action: ${action}]`));
+            }, 30000);
+
+            const handler = (e: MessageEvent) => {
+                const data = e.data;
+                if (data.msgId !== msgId) return;
+                if (data.type === 'PROGRESS' && onProgress) onProgress(data.payload);
+                if (data.type === 'SUCCESS') {
+                    clearTimeout(timeout);
+                    workerRef.current?.removeEventListener('message', handler);
+                    resolve(data.payload);
+                }
+                if (data.type === 'ERROR') {
+                    clearTimeout(timeout);
+                    workerRef.current?.removeEventListener('message', handler);
+                    reject(new Error(data.error));
+                }
+            };
+            workerRef.current.addEventListener('message', handler);
+            workerRef.current.postMessage({ action, payload, msgId });
+        });
+    };
 
     const handleFiles = useCallback(async (fileList: FileList) => {
+        setDragging(false);
         const newFiles: UploadedFile[] = [];
         const errors: ParseError[] = [];
 
+        dispatch({ type: 'SET_PROCESSING', step: 'Parsing files off-thread...' });
+        let totalFiles = 0;
+        let completed = 0;
+
         for (const file of Array.from(fileList)) {
             if (!file.name.endsWith('.json') && !file.name.endsWith('.csv')) {
-                errors.push({
-                    source: 'unknown',
-                    filename: file.name,
-                    message: `Unsupported file type: ${file.name.split('.').pop()}`,
-                    suggestion: 'Upload JSON or CSV files. For Google Takeout, extract the ZIP first and upload the JSON files inside.',
-                });
+                errors.push({ source: 'unknown', filename: file.name, message: `Unsupported file type.`, suggestion: 'Upload JSON/CSV' });
                 continue;
             }
-            const text = await file.text();
+            totalFiles++;
+        }
+
+        for (const file of Array.from(fileList)) {
+            if (!file.name.endsWith('.json') && !file.name.endsWith('.csv')) continue;
+            
             const mapping = detectSource(file.name);
-            const result = mapping.parser(text, file.name);
-
-            if (result.errors.length > 0) {
-                errors.push(...result.errors);
-            }
-
-            if (result.events.length > 0) {
-                newFiles.push({
-                    name: file.name,
-                    source: mapping.source,
-                    events: result.events,
-                    size: file.size,
+            
+            try {
+                // Pass native File object to Web Worker for chunking
+                const result = await runWorkerTask('PARSE_FILE', { file, source: mapping.source }, (prog) => {
+                    dispatch({
+                        type: 'SET_PROGRESS',
+                        progress: { stage: 'parse', stageLabel: `Parsing ${file.name} (${prog.percent}%)`, percent: prog.percent / totalFiles + (completed/totalFiles)*100 }
+                    });
                 });
+
+                if (result.errors.length > 0) errors.push(...result.errors);
+                if (result.events.length > 0) {
+                    newFiles.push({
+                        name: file.name,
+                        source: mapping.source,
+                        events: result.events,
+                        size: file.size,
+                    });
+                }
+            } catch (err: any) {
+                errors.push({ source: mapping.source, filename: file.name, message: err.message || 'Worker crash', suggestion: 'Try smaller sizes' });
             }
+            completed++;
         }
 
         setFiles(prev => [...prev, ...newFiles]);
-        if (errors.length > 0) {
-            setParseErrors(prev => [...prev, ...errors]);
-        }
-    }, []);
+        if (errors.length > 0) setParseErrors(prev => [...prev, ...errors]);
+        
+        dispatch({ type: 'SET_DONE' }); // properly clears processing state
+    }, [dispatch]);
 
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -96,39 +154,26 @@ export default function LandingPage() {
     };
 
     const runAnalysis = async (events: ShadowEvent[]) => {
-        dispatch({ type: 'SET_PROCESSING', step: 'Normalizing events...' });
-        dispatch({
-            type: 'SET_PROGRESS',
-            progress: { stage: 'parse', stageLabel: 'Processing events', percent: 10 },
-        });
-        await sleep(300);
+        dispatch({ type: 'SET_PROCESSING', step: 'Sorting events...' });
+        dispatch({ type: 'SET_PROGRESS', progress: { stage: 'parse', stageLabel: 'Processing events', percent: 10 } });
+        await sleep(100);
 
         const sortedEvents = events.sort((a, b) => a.timestamp - b.timestamp);
         dispatch({ type: 'SET_EVENTS', events: sortedEvents });
 
-        dispatch({ type: 'SET_PROCESSING', step: 'Building entity graph...' });
-        dispatch({
-            type: 'SET_PROGRESS',
-            progress: { stage: 'entity-graph', stageLabel: 'Building entity graph', percent: 30 },
+        dispatch({ type: 'SET_PROCESSING', step: 'Building graphs via Worker...' });
+        dispatch({ type: 'SET_PROGRESS', progress: { stage: 'entity-graph', stageLabel: 'Building entity graph', percent: 30 } });
+        
+        // Execute graph processing in Web Worker
+        const { graph, risk } = await runWorkerTask('PROCESS_GRAPHS', { events }, (prog) => {
+            if (prog.step) dispatch({ type: 'SET_PROCESSING', step: prog.step });
         });
-        await sleep(300);
-        const graph = buildEntityGraph(sortedEvents);
+        
         dispatch({ type: 'SET_ENTITIES', entities: graph.nodes, edges: graph.edges });
-
-        dispatch({ type: 'SET_PROCESSING', step: 'Computing risk scores...' });
-        dispatch({
-            type: 'SET_PROGRESS',
-            progress: { stage: 'risk-score', stageLabel: 'Computing risk scores', percent: 55 },
-        });
-        await sleep(300);
-        const risk = computeRiskScore(sortedEvents, graph.nodes);
         dispatch({ type: 'SET_RISK_SCORE', score: risk });
 
         dispatch({ type: 'SET_PROCESSING', step: 'Generating threat narratives...' });
-        dispatch({
-            type: 'SET_PROGRESS',
-            progress: { stage: 'threat-gen', stageLabel: 'Generating threat analysis', percent: 70 },
-        });
+        dispatch({ type: 'SET_PROGRESS', progress: { stage: 'threat-gen', stageLabel: 'Generating threat analysis', percent: 70 } });
 
         const key = apiKey || state.apiKey;
         let threats;
@@ -140,10 +185,7 @@ export default function LandingPage() {
         }
         dispatch({ type: 'SET_THREATS', threats });
 
-        dispatch({
-            type: 'SET_PROGRESS',
-            progress: { stage: 'done', stageLabel: 'Analysis complete', percent: 100 },
-        });
+        dispatch({ type: 'SET_PROGRESS', progress: { stage: 'done', stageLabel: 'Analysis complete', percent: 100 } });
         await sleep(400);
 
         dispatch({ type: 'SET_ANALYZED' });
@@ -156,7 +198,6 @@ export default function LandingPage() {
         dispatch({ type: 'ADD_FILES', files });
         if (apiKey) {
             dispatch({ type: 'SET_API_KEY', key: apiKey });
-            localStorage.setItem('datashadow_apikey', apiKey);
         }
 
         const allEvents = files.flatMap(f => f.events);
@@ -288,7 +329,7 @@ export default function LandingPage() {
                     <label>Gemini API Key (optional)</label>
                     <div className="hint">
                         Required for AI-generated threat narratives. Get one free from <a href="https://aistudio.google.com/apikey" target="_blank" style={{color: 'var(--accent-purple-light)'}}>Google AI Studio</a>.
-                        Without it, deterministic analysis + pre-built threats are used. Your key stays in your browser.
+                        Without it, deterministic analysis + pre-built threats are used. Your key stays in volatile memory only and vanishes on refresh.
                     </div>
                     <input
                         type="password"

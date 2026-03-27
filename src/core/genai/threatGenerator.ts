@@ -15,7 +15,7 @@ export async function generateThreats(
     riskScore: RiskScore
 ): Promise<ThreatNarrative[]> {
     const summary = redactor.buildRedactedSummary(
-        events.map(e => ({ title: e.title, category: e.category, source: e.source })),
+        events.map(e => ({ timestamp: e.timestamp, title: e.title, category: e.category, source: e.source })),
         {
             overall: riskScore.overall,
             piiDensity: riskScore.piiDensity,

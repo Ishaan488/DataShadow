@@ -48,6 +48,7 @@ export default function Dashboard() {
     const { state } = useShadow();
     const { events, entities, riskScore, threats } = state;
     const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
+    const [isExporting, setIsExporting] = useState(false);
 
     if (!riskScore) {
         return (
@@ -140,11 +141,19 @@ export default function Dashboard() {
                 </div>
                 <button
                     className="btn btn-secondary"
-                    onClick={() => generatePDFReport(events, entities, riskScore, threats)}
+                    disabled={isExporting}
+                    onClick={async () => {
+                        setIsExporting(true);
+                        try {
+                            await generatePDFReport(events, entities, riskScore, threats);
+                        } finally {
+                            setIsExporting(false);
+                        }
+                    }}
                     style={{ flexShrink: 0 }}
                 >
                     <Download size={16} />
-                    Export PDF Report
+                    {isExporting ? 'Exporting...' : 'Export PDF Report'}
                 </button>
             </div>
 
