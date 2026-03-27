@@ -10,7 +10,7 @@ export default function Navbar() {
         <nav className="navbar">
             <NavLink to="/" className="navbar-brand">
                 <div className="brand-icon">
-                    <Shield size={20} color="white" />
+                    <Shield size={20} color="#000000" />
                 </div>
                 <div>
                     <h1>DataShadow</h1>

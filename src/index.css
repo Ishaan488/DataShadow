@@ -1,57 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Color System */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #111118;
-  --bg-card: rgba(20, 20, 35, 0.7);
-  --bg-card-hover: rgba(30, 30, 50, 0.8);
-  --bg-glass: rgba(255, 255, 255, 0.03);
-  --bg-glass-hover: rgba(255, 255, 255, 0.06);
+  /* Color System - Minimalist Dark */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #050505;
+  --bg-card-hover: #0f0f0f;
+  --bg-glass: rgba(255, 255, 255, 0.02);
+  --bg-glass-hover: rgba(255, 255, 255, 0.04);
 
   --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-medium: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(139, 92, 246, 0.3);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --border-accent: rgba(255, 255, 255, 0.3);
 
-  --text-primary: #f0f0f5;
-  --text-secondary: #8888a0;
-  --text-muted: #55556a;
-  --text-accent: #a78bfa;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --text-accent: #ffffff;
 
-  --accent-purple: #8b5cf6;
-  --accent-purple-light: #a78bfa;
-  --accent-cyan: #06b6d4;
-  --accent-cyan-light: #22d3ee;
+  --accent-purple: #ffffff;
+  --accent-purple-light: #e4e4e7;
+  --accent-cyan: #d4d4d8;
+  --accent-cyan-light: #f4f4f5;
   --accent-green: #10b981;
   --accent-orange: #f59e0b;
   --accent-red: #ef4444;
-  --accent-pink: #ec4899;
+  --accent-pink: #71717a;
   --accent-blue: #3b82f6;
 
-  --gradient-main: linear-gradient(135deg, #8b5cf6, #06b6d4);
-  --gradient-warm: linear-gradient(135deg, #f59e0b, #ef4444);
-  --gradient-cool: linear-gradient(135deg, #06b6d4, #10b981);
-  --gradient-danger: linear-gradient(135deg, #ef4444, #ec4899);
-  --gradient-bg: radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-                 radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
-                 radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.04) 0%, transparent 50%);
+  --gradient-main: #ffffff;
+  --gradient-warm: #f59e0b;
+  --gradient-cool: #3b82f6;
+  --gradient-danger: #ef4444;
+  --gradient-bg: #000000;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: none;
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --transition-fast: 0.15s ease;
-  --transition-med: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.1s ease;
+  --transition-med: 0.2s ease;
+  --transition-slow: 0.3s ease;
 }
 
 * {
@@ -133,12 +131,12 @@ body {
 
 .navbar-brand h1 {
   font-size: 20px;
-  font-weight: 700;
-  background: var(--gradient-main);
+  font-weight: 600;
+  background: #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 .navbar-brand span {
@@ -252,12 +250,14 @@ body {
 
 .btn-primary {
   background: var(--gradient-main);
-  color: white;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  color: #000000;
+  box-shadow: none;
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 25px rgba(139, 92, 246, 0.4);
+  background: #e4e4e7;
+  color: #000000;
+  box-shadow: none;
 }
 .btn-primary:disabled {
   opacity: 0.5;
@@ -309,20 +309,7 @@ body {
 }
 
 .landing::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(2px 2px at 20% 30%, rgba(139, 92, 246, 0.3), transparent),
-    radial-gradient(2px 2px at 40% 70%, rgba(6, 182, 212, 0.2), transparent),
-    radial-gradient(2px 2px at 80% 40%, rgba(236, 72, 153, 0.2), transparent),
-    radial-gradient(1px 1px at 60% 20%, rgba(255, 255, 255, 0.2), transparent),
-    radial-gradient(1px 1px at 30% 80%, rgba(255, 255, 255, 0.15), transparent);
-  pointer-events: none;
-  animation: sparkle 8s ease-in-out infinite alternate;
+  display: none;
 }
 
 @keyframes sparkle {
@@ -346,7 +333,7 @@ body {
 }
 
 .landing-hero h2 .gradient-text {
-  background: var(--gradient-main);
+  background: #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -584,10 +571,10 @@ body {
 
 .stat-card .stat-value {
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.5px;
   margin-bottom: 4px;
-  background: var(--gradient-main);
+  background: #ffffff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

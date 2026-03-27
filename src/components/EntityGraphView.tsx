@@ -5,11 +5,11 @@ import { Network, Search, X } from 'lucide-react';
 import ForceGraph2D from 'react-force-graph-2d';
 
 const TYPE_COLORS: Record<string, string> = {
-    person: '#3b82f6',
-    location: '#10b981',
-    organization: '#8b5cf6',
-    topic: '#6b7280',
-    financial: '#f59e0b',
+    person: '#ffffff',
+    location: '#a1a1aa',
+    organization: '#d4d4d8',
+    topic: '#52525b',
+    financial: '#3b82f6',
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -159,7 +159,7 @@ export default function EntityGraphView() {
 
             <div className="entity-layout">
                 {/* Hardware-Accelerated 2D Force Graph (Obsidian Style) */}
-                <div ref={containerRef} className="entity-list" style={{ padding: 0, overflow: 'hidden', background: '#0a0a0f', position: 'relative' }}>
+                <div ref={containerRef} className="entity-list" style={{ padding: 0, overflow: 'hidden', background: '#000000', position: 'relative' }}>
                     <div style={{ position: 'absolute', inset: 0 }}>
                         {dimensions.width > 0 && (
                             <ForceGraph2D
@@ -209,7 +209,7 @@ export default function EntityGraphView() {
                                     const org = entities.find(e => e.id === node.id);
                                     if (org) setSelectedEntity(org);
                                 }}
-                                backgroundColor="#0a0a0f"
+                                backgroundColor="#000000"
                             />
                         )}
                     </div>

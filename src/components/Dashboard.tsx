@@ -8,13 +8,13 @@ import { Database, Users, MapPin, Clock, Calendar, Shield, Network, AlertTriangl
 import { generatePDFReport } from '../utils/pdfReport';
 
 const SOURCE_COLORS: Record<string, string> = {
-    google_search: '#8b5cf6',
-    youtube: '#ef4444',
-    location: '#10b981',
-    browser_history: '#3b82f6',
-    email: '#06b6d4',
-    social_media: '#ec4899',
-    unknown: '#6b7280',
+    google_search: '#ffffff',
+    youtube: '#d4d4d8',
+    location: '#a1a1aa',
+    browser_history: '#71717a',
+    email: '#52525b',
+    social_media: '#3f3f46',
+    unknown: '#27272a',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -30,7 +30,7 @@ const SOURCE_LABELS: Record<string, string> = {
 function getRiskColor(score: number): string {
     if (score >= 70) return '#ef4444';
     if (score >= 50) return '#f59e0b';
-    if (score >= 30) return '#8b5cf6';
+    if (score >= 30) return '#ffffff';
     return '#10b981';
 }
 
@@ -258,17 +258,17 @@ export default function Dashboard() {
                                     <AreaChart data={timelineData}>
                                         <defs>
                                             <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.3} />
-                                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0} />
+                                                <stop offset="0%" stopColor="#ffffff" stopOpacity={0.15} />
+                                                <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
                                         <YAxis tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ background: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
+                                            contentStyle={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
                                             labelStyle={{ color: '#8888a0' }}
                                         />
-                                        <Area type="monotone" dataKey="count" stroke="#8b5cf6" fill="url(#grad1)" strokeWidth={2} />
+                                        <Area type="monotone" dataKey="count" stroke="#ffffff" fill="url(#grad1)" strokeWidth={2} />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
@@ -285,10 +285,10 @@ export default function Dashboard() {
                                         <XAxis type="number" tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
                                         <YAxis dataKey="name" type="category" tick={{ fontSize: 11, fill: '#8888a0' }} axisLine={false} tickLine={false} width={100} />
                                         <Tooltip
-                                            contentStyle={{ background: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
+                                            contentStyle={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
                                             labelStyle={{ color: '#8888a0' }}
                                         />
-                                        <Bar dataKey="count" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
+                                        <Bar dataKey="count" fill="#ffffff" radius={[0, 4, 4, 0]} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
