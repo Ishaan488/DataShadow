@@ -8,13 +8,13 @@ import { Database, Users, MapPin, Clock, Calendar, Shield, Network, AlertTriangl
 import { generatePDFReport } from '../utils/pdfReport';
 
 const SOURCE_COLORS: Record<string, string> = {
-    google_search: '#ffffff',
-    youtube: '#d4d4d8',
-    location: '#a1a1aa',
-    browser_history: '#71717a',
-    email: '#52525b',
-    social_media: '#3f3f46',
-    unknown: '#27272a',
+    google_search: '#e4e4e7',
+    youtube: '#a1a1aa',
+    location: '#71717a',
+    browser_history: '#52525b',
+    email: '#3f3f46',
+    social_media: '#27272a',
+    unknown: '#18181b',
 };
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -29,9 +29,9 @@ const SOURCE_LABELS: Record<string, string> = {
 
 function getRiskColor(score: number): string {
     if (score >= 70) return '#ef4444';
-    if (score >= 50) return '#f59e0b';
-    if (score >= 30) return '#ffffff';
-    return '#10b981';
+    if (score >= 50) return '#d4d4d8';
+    if (score >= 30) return '#a1a1aa';
+    return '#71717a';
 }
 
 // Remediation tips per dimension
@@ -262,11 +262,11 @@ export default function Dashboard() {
                                                 <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
-                                        <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
-                                        <YAxis tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
+                                        <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#71717a' }} axisLine={false} tickLine={false} />
+                                        <YAxis tick={{ fontSize: 10, fill: '#71717a' }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
-                                            labelStyle={{ color: '#8888a0' }}
+                                            contentStyle={{ background: '#09090b', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, fontSize: 12 }}
+                                            labelStyle={{ color: '#a1a1aa' }}
                                         />
                                         <Area type="monotone" dataKey="count" stroke="#ffffff" fill="url(#grad1)" strokeWidth={2} />
                                     </AreaChart>
@@ -282,13 +282,13 @@ export default function Dashboard() {
                             <div className="chart-container">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={catData} layout="vertical">
-                                        <XAxis type="number" tick={{ fontSize: 10, fill: '#55556a' }} axisLine={false} tickLine={false} />
-                                        <YAxis dataKey="name" type="category" tick={{ fontSize: 11, fill: '#8888a0' }} axisLine={false} tickLine={false} width={100} />
+                                        <XAxis type="number" tick={{ fontSize: 10, fill: '#71717a' }} axisLine={false} tickLine={false} />
+                                        <YAxis dataKey="name" type="category" tick={{ fontSize: 11, fill: '#a1a1aa' }} axisLine={false} tickLine={false} width={100} />
                                         <Tooltip
-                                            contentStyle={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
-                                            labelStyle={{ color: '#8888a0' }}
+                                            contentStyle={{ background: '#09090b', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, fontSize: 12 }}
+                                            labelStyle={{ color: '#a1a1aa' }}
                                         />
-                                        <Bar dataKey="count" fill="#ffffff" radius={[0, 4, 4, 0]} />
+                                        <Bar dataKey="count" fill="#e4e4e7" radius={[0, 4, 4, 0]} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>

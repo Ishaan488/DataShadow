@@ -226,21 +226,34 @@ export default function LandingPage() {
     return (
         <div className="landing">
             {state.isProcessing && (
-                <div className="processing-overlay">
-                    <div className="processing-spinner" />
-                    <div className="processing-text">Analyzing your digital shadow...</div>
-                    <div className="processing-step">{state.currentStep}</div>
-                    {state.progress && (
-                        <div className="progress-bar-container">
-                            <div className="progress-bar-track">
-                                <div
-                                    className="progress-bar-fill"
-                                    style={{ width: `${state.progress.percent}%` }}
-                                />
-                            </div>
-                            <div className="progress-label">{state.progress.stageLabel}</div>
+                <div className="processing-overlay fade-in">
+                    <div className="hud-container">
+                        <div className="hud-header">
+                            <div className="hud-pulse" />
+                            <span>System Analysis in Progress</span>
                         </div>
-                    )}
+                        <div className="hud-body">
+                            <div className="hud-step">{state.currentStep}</div>
+                            {state.progress && (
+                                <div className="progress-bar-container">
+                                    <div className="progress-bar-track">
+                                        <div
+                                            className="progress-bar-fill"
+                                            style={{ width: `${state.progress.percent}%` }}
+                                        />
+                                    </div>
+                                    <div className="progress-label" style={{ fontFamily: 'var(--font-mono)' }}>
+                                        {state.progress.stageLabel}
+                                    </div>
+                                    <div className="hud-terminal-log">
+                                        &gt; allocating memory... OK<br/>
+                                        &gt; {state.progress.stageLabel.toLowerCase()}... [BUSY]<br/>
+                                        &gt; calculating threat vectors...
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
 
