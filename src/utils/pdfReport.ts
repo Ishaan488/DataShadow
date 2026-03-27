@@ -183,11 +183,11 @@ export function generatePDFReport(
     drawSectionTitle('Key Entities Identified');
 
     const typeLabels: Record<string, string> = {
-        person: '👤 Person',
-        organization: '🏢 Organization',
-        location: '📍 Location',
-        financial: '💰 Financial',
-        topic: '📌 Topic',
+        person: 'Person',
+        organization: 'Organization',
+        location: 'Location',
+        financial: 'Financial',
+        topic: 'Topic',
     };
 
     const byType = new Map<string, Entity[]>();
@@ -249,7 +249,7 @@ export function generatePDFReport(
             drawText('Recommended Mitigations:', 9, colors.green, 'bold');
             y += 1;
             for (const m of threat.mitigations) {
-                drawText(`  ✓ ${m}`, 9, colors.text);
+                drawText(`  - ${m}`, 9, colors.text);
             }
         }
 

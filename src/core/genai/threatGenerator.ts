@@ -81,7 +81,7 @@ CRITICAL: Output ONLY the JSON array. No markdown, no explanation, no code fence
 
     try {
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         const result = await model.generateContent(prompt);
         const content = result.response.text();
@@ -112,6 +112,11 @@ CRITICAL: Output ONLY the JSON array. No markdown, no explanation, no code fence
         // Provide user-friendly error messages
         if (error?.message?.includes('API_KEY_INVALID') || error?.status === 400) {
             console.error('Invalid Gemini API key. Get one from https://aistudio.google.com/apikey');
+        } else if (error?.status === 429 || error?.message?.includes('429') || error?.message?.includes('Too Many Requests')) {
+            console.error('Gemini API rate limit exceeded (429 Too Many Requests). This is expected on the free tier. Falling back to default threat narratives.');
+            alert('Gemini API rate limit exceeded (Too Many Requests). Falling back to default threat narratives.');
+        } else {
+            console.error('An unexpected error occurred with Gemini. Falling back to default threat narratives.');
         }
 
         return getDefaultThreats(riskScore, events, entities);

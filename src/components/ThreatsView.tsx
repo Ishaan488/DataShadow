@@ -134,9 +134,19 @@ function ThreatCard({ threat, index }: { threat: ThreatNarrative; index: number 
     );
 }
 
-function EmailDisplay({ content }: { content: string }) {
+function EmailDisplay({ content }: { content: any }) {
+    // Ensure content is a string in case LLM outputs an array or object
+    let textContent = '';
+    if (Array.isArray(content)) {
+        textContent = content.join('\n');
+    } else if (typeof content === 'string') {
+        textContent = content;
+    } else if (content) {
+        textContent = String(content);
+    }
+
     // Parse subject and body from the email content
-    const lines = content.split('\n');
+    const lines = textContent.split('\n');
     let subject = '';
     let from = '';
     const bodyLines: string[] = [];
@@ -155,7 +165,7 @@ function EmailDisplay({ content }: { content: string }) {
         }
     }
 
-    const body = bodyLines.join('\n').trim() || content;
+    const body = bodyLines.join('\n').trim() || textContent;
 
     return (
         <div className="email-display">
