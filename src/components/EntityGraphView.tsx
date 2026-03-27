@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useShadow } from '../store/shadowStore';
 import { Entity } from '../core/types';
 import { Network, Search, X } from 'lucide-react';
-import ForceGraph3D from 'react-force-graph-3d';
+import ForceGraph2D from 'react-force-graph-2d';
 
 const TYPE_COLORS: Record<string, string> = {
     person: '#3b82f6',
@@ -27,8 +27,9 @@ export default function EntityGraphView() {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<string>('all');
     
-    // Auto-resizing for the 3D canvas
+    // Auto-resizing for the Canvas
     const containerRef = useRef<HTMLDivElement>(null);
+    const fgRef = useRef<any>(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
@@ -45,46 +46,82 @@ export default function EntityGraphView() {
         return () => observer.disconnect();
     }, []);
 
-    const filteredEntities = entities.filter(e => {
+    const filteredEntities = useMemo(() => entities.filter(e => {
         const matchSearch = !searchTerm || e.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchType = filterType === 'all' || e.type === filterType;
         return matchSearch && matchType;
-    });
+    }), [entities, searchTerm, filterType]);
 
     // Get events for selected entity
-    const selectedEvents = selectedEntity
+    const selectedEvents = useMemo(() => selectedEntity
         ? events.filter(ev =>
             ev.entities.some(eid =>
                 eid.toLowerCase() === selectedEntity.id.toLowerCase() ||
                 eid.toLowerCase() === selectedEntity.name.toLowerCase()
             )
         )
-        : [];
+        : [], [selectedEntity, events]);
 
     // Get connected entities
-    const connectedIds = selectedEntity
+    const connectedIds = useMemo(() => selectedEntity
         ? new Set(
             edges
                 .filter(e => e.source === selectedEntity.id || e.target === selectedEntity.id)
                 .flatMap(e => [e.source, e.target])
                 .filter(id => id !== selectedEntity.id)
         )
-        : new Set<string>();
+        : new Set<string>(), [selectedEntity, edges]);
 
-    const connectedEntities = entities.filter(e => connectedIds.has(e.id));
+    const connectedEntities = useMemo(() => entities.filter(e => connectedIds.has(e.id)), [entities, connectedIds]);
 
     // Entity type stats
-    const typeStats = new Map<string, number>();
-    for (const e of entities) {
-        typeStats.set(e.type, (typeStats.get(e.type) || 0) + 1);
-    }
+    const typeStats = useMemo(() => {
+        const stats = new Map<string, number>();
+        for (const e of entities) {
+            stats.set(e.type, (stats.get(e.type) || 0) + 1);
+        }
+        return stats;
+    }, [entities]);
+
+    const validLinks = useMemo(() => edges.filter(l => 
+        filteredEntities.some(e => e.id === l.source) && 
+        filteredEntities.some(e => e.id === l.target)
+    ), [edges, filteredEntities]);
+
+    const linkedNodeIds = useMemo(() => {
+        const ids = new Set<string>();
+        validLinks.forEach(l => { ids.add(l.source); ids.add(l.target); });
+        return ids;
+    }, [validLinks]);
+
+    // Filter dust bounds: must be connected OR mentioned multiple times OR searched
+    const displayNodes = useMemo(() => filteredEntities.filter(e => 
+        linkedNodeIds.has(e.id) || e.mentions >= 3 || searchTerm !== ''
+    ), [filteredEntities, linkedNodeIds, searchTerm]);
+
+    const graphData = useMemo(() => ({
+        nodes: displayNodes.map(e => ({
+            ...e,
+            val: Math.max(3, Math.min(24, e.mentions)), // Larger nodes based on mentions
+            color: TYPE_COLORS[e.type] || '#6b7280'
+        })),
+        links: validLinks.map(l => ({ ...l }))
+    }), [displayNodes, validLinks]);
+
+    // Tune the Physics Engine to group communities cleanly
+    useEffect(() => {
+        if (fgRef.current) {
+            fgRef.current.d3Force('charge').strength(-300);
+            fgRef.current.d3Force('link').distance(45);
+        }
+    }, [displayNodes.length, fgRef.current]);
 
     return (
         <div className="entity-graph-view">
             <div className="entity-graph-header">
                 <div>
                     <h3><Network size={18} style={{ verticalAlign: 'middle', marginRight: 8 }} />Entity Network</h3>
-                    <p className="text-muted">{entities.length} entities, {edges.length} connections</p>
+                    <p className="text-muted">{displayNodes.length} active nodes, {validLinks.length} connections</p>
                 </div>
                 <div className="entity-search">
                     <Search size={14} />
@@ -121,31 +158,54 @@ export default function EntityGraphView() {
             </div>
 
             <div className="entity-layout">
-                {/* Hardware-Accelerated 3D Force Graph */}
+                {/* Hardware-Accelerated 2D Force Graph (Obsidian Style) */}
                 <div ref={containerRef} className="entity-list" style={{ padding: 0, overflow: 'hidden', background: '#0a0a0f', position: 'relative' }}>
                     <div style={{ position: 'absolute', inset: 0 }}>
                         {dimensions.width > 0 && (
-                            <ForceGraph3D
+                            <ForceGraph2D
+                                ref={fgRef}
                                 width={dimensions.width}
                                 height={dimensions.height}
-                                graphData={{
-                                    nodes: filteredEntities.map(e => ({
-                                        ...e,
-                                        val: Math.max(1, Math.min(10, e.mentions / 5)), // Node size based on mentions
-                                        color: TYPE_COLORS[e.type] || '#6b7280'
-                                    })),
-                                    links: edges.filter(l => 
-                                        filteredEntities.some(e => e.id === l.source) && 
-                                        filteredEntities.some(e => e.id === l.target)
-                                    )
-                                }}
-                                nodeLabel="name"
+                                graphData={graphData}
                                 nodeColor="color"
-                                nodeResolution={16}
                                 linkWidth={0.5}
-                                linkColor={() => 'rgba(255,255,255,0.15)'}
+                                linkColor={() => 'rgba(255,255,255,0.1)'}
+                                linkDirectionalParticles={2} 
+                                linkDirectionalParticleWidth={1.5}
+                                nodeCanvasObject={(node: any, ctx: any, globalScale: number) => {
+                                    const size = Math.max(1.5, node.val);
+                                    const isSelected = node.id === selectedEntity?.id;
+
+                                    if (isSelected) {
+                                        // Draw beautiful glowing halo for selected node
+                                        ctx.beginPath();
+                                        ctx.arc(node.x, node.y, size + 6, 0, 2 * Math.PI, false);
+                                        ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                                        ctx.fill();
+                                        ctx.strokeStyle = '#ffffff';
+                                        ctx.lineWidth = 1.5;
+                                        ctx.stroke();
+                                    }
+
+                                    // Draw node circle
+                                    ctx.beginPath();
+                                    ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
+                                    ctx.fillStyle = node.color;
+                                    ctx.fill();
+
+                                    // Dynamic LOD Text Rendering
+                                    const showText = globalScale > 1.8 || node.mentions > 6 || isSelected;
+                                    if (showText) {
+                                        const label = node.name;
+                                        const fontSize = Math.max(12 / globalScale, 4);
+                                        ctx.font = `${isSelected ? 'bold ' : ''}${fontSize}px Sans-Serif`;
+                                        ctx.textAlign = 'center';
+                                        ctx.textBaseline = 'top';
+                                        ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(255,255,255,0.85)';
+                                        ctx.fillText(label, node.x, node.y + size + 3);
+                                    }
+                                }}
                                 onNodeClick={(node: any) => {
-                                    // Find original entity to set as selected
                                     const org = entities.find(e => e.id === node.id);
                                     if (org) setSelectedEntity(org);
                                 }}
