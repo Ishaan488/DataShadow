@@ -1,6 +1,6 @@
 # DataShadow
 
-DataShadow is a Vite + React + TypeScript project.
+DataShadowAnalyser is a Vite + React + TypeScript project.
 
 ## Project Setup
 
